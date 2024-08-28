@@ -3,7 +3,7 @@ package com.openclassrooms.chatop.dtos;
 public class RegisterUserDto {
     private String email;
     private String password;
-    private String fullName;
+    private String name;
 
     // Getter pour email
     public String getEmail() {
@@ -25,13 +25,13 @@ public class RegisterUserDto {
         this.password = password;
     }
 
-    // Getter pour fullName
-    public String getFullName() {
-        return fullName;
+    // Getter pour name
+    public String getName() {
+        return name;
     }
 
-    // Setter pour fullName
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    // Setter pour name
+    public void setName(String name) {
+        this.name = name;
     }
 }
