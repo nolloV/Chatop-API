@@ -43,11 +43,13 @@ public class AuthenticationController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String token) {
-        if (token.startsWith("Bearer ")) {
-            token = token.substring(7);
+    public ResponseEntity<?> getCurrentUser(@RequestHeader(value = "Authorization", required = false) String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.ok("User is not authenticated");
         }
+        token = token.substring(7);
         User currentUser = authenticationService.getUserFromToken(token);
         return ResponseEntity.ok(currentUser);
     }
+
 }
