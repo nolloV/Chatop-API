@@ -8,7 +8,7 @@ import com.openclassrooms.chatop.services.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+// import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -36,14 +36,13 @@ public class RentalController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RentalResponse> createRental(
-            @ModelAttribute RentalDto rentalDto,
-            @RequestPart("picture") MultipartFile picture) {
+            @ModelAttribute RentalDto rentalDto) {
         // Utiliser le service pour créer une nouvelle location
         Rental newRental = rentalService.createRental(rentalDto);
-
+    
         // Créer la réponse avec le message
         RentalResponse rentalResponse = new RentalResponse("Rental created !", newRental);
-
+    
         return ResponseEntity.ok(rentalResponse);
     }
 

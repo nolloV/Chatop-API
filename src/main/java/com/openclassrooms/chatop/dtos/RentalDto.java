@@ -1,7 +1,8 @@
 package com.openclassrooms.chatop.dtos;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class RentalDto {
 
@@ -9,12 +10,12 @@ public class RentalDto {
     private String description;
     private double price;
     private double surface;
-    private List<String> picture;
+    private MultipartFile picture; // Changer List<String> en MultipartFile
     private Long ownerId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // Getters and Setters
+    // Getters et Setters
     public String getName() {
         return name;
     }
@@ -47,11 +48,11 @@ public class RentalDto {
         this.surface = surface;
     }
 
-    public List<String> getPicture() {
+    public MultipartFile getPicture() {
         return picture;
     }
 
-    public void setPicture(List<String> picture) {
+    public void setPicture(MultipartFile picture) {
         this.picture = picture;
     }
 

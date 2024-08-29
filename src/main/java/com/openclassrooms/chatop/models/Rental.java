@@ -2,7 +2,6 @@ package com.openclassrooms.chatop.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 public class Rental {
@@ -15,7 +14,7 @@ public class Rental {
     private String description;
     private double price;
     private double surface;
-    private List<String> picture;
+    private String picture; // Stocke le chemin ou l'URL du fichier
     private Long ownerId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -61,11 +60,11 @@ public class Rental {
         this.surface = surface;
     }
 
-    public List<String> getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(List<String> picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 
