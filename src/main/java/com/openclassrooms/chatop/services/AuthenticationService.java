@@ -2,6 +2,7 @@ package com.openclassrooms.chatop.services;
 
 import com.openclassrooms.chatop.dtos.LoginUserDto;
 import com.openclassrooms.chatop.dtos.RegisterUserDto;
+import com.openclassrooms.chatop.dtos.UserDto;
 import com.openclassrooms.chatop.entities.User;
 import com.openclassrooms.chatop.repositories.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,14 +50,20 @@ public class AuthenticationService {
         );
 
         return userRepository.findByEmail(input.getEmail())
-                .orElseThrow();
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
 
-    public User getCurrentUser() {
+    public UserDto getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
-            return userRepository.findByEmail(email).orElseThrow();
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+            UserDto userDto = new UserDto();
+            userDto.setName(user.getName());
+            userDto.setEmail(user.getEmail());
+            userDto.setCreatedAt(user.getCreatedAt());
+            userDto.setUpdatedAt(user.getUpdatedAt());
+            return userDto;
         } else {
             throw new RuntimeException("Utilisateur non authentifié");
         }

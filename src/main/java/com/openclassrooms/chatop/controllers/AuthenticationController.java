@@ -3,6 +3,7 @@ package com.openclassrooms.chatop.controllers;
 import com.openclassrooms.chatop.entities.User;
 import com.openclassrooms.chatop.dtos.LoginUserDto;
 import com.openclassrooms.chatop.dtos.RegisterUserDto;
+import com.openclassrooms.chatop.dtos.UserDto;
 import com.openclassrooms.chatop.responses.LoginResponse;
 import com.openclassrooms.chatop.services.AuthenticationService;
 import com.openclassrooms.chatop.services.JwtService;
@@ -12,6 +13,8 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RequestMapping("/api/auth")
 @RestController
@@ -43,13 +46,14 @@ public class AuthenticationController {
     }
 
     @GetMapping("/me")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<?> getCurrentUser(@RequestHeader(value = "Authorization", required = false) String token) {
         if (token == null || !token.startsWith("Bearer ")) {
             return ResponseEntity.ok("User is not authenticated");
         }
         token = token.substring(7);
         User currentUser = authenticationService.getUserFromToken(token);
-        return ResponseEntity.ok(currentUser);
+        UserDto userDto = new UserDto(currentUser.getName(), currentUser.getEmail(), currentUser.getCreatedAt(), currentUser.getUpdatedAt());
+        return ResponseEntity.ok(userDto);
     }
-
 }

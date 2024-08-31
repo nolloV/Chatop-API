@@ -4,6 +4,8 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import io.sentry.Sentry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;
@@ -15,12 +17,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleSecurityException(Exception exception) {
 
-        ProblemDetail errorDetail = null;
+        ProblemDetail errorDetail;
 
-        exception.printStackTrace();
+        logger.error("Exception caught: ", exception);
         Sentry.captureException(exception);
 
         if (exception instanceof BadCredentialsException) {

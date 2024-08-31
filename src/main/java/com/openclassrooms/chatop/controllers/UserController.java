@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.openclassrooms.chatop.dtos.UserDto;
 import com.openclassrooms.chatop.entities.User;
 import com.openclassrooms.chatop.services.UserService;
 
@@ -20,8 +21,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable Integer id) {
         User user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+        UserDto userDto = new UserDto(user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
+        return ResponseEntity.ok(userDto);
     }
 }

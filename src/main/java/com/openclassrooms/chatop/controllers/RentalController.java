@@ -8,15 +8,16 @@ import com.openclassrooms.chatop.services.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-// import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
 
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.MediaType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RequestMapping("/api/rentals")
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 public class RentalController {
 
     @Autowired
@@ -31,24 +32,25 @@ public class RentalController {
     @GetMapping("/{id}")
     public ResponseEntity<Rental> getRentalById(@PathVariable Long id) {
         Rental rental = rentalService.getRentalById(id);
+        if (rental == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(rental);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<RentalResponse> createRental(
-            @ModelAttribute RentalDto rentalDto) {
-        // Utiliser le service pour créer une nouvelle location
+    public ResponseEntity<RentalResponse> createRental(@ModelAttribute RentalDto rentalDto) {
         Rental newRental = rentalService.createRental(rentalDto);
-    
-        // Créer la réponse avec le message
-        RentalResponse rentalResponse = new RentalResponse("Rental created !", newRental);
-    
+        RentalResponse rentalResponse = new RentalResponse("Rental created!", newRental);
         return ResponseEntity.ok(rentalResponse);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Rental> updateRental(@PathVariable Long id, @RequestBody RentalDto rentalDto) {
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<RentalResponse> updateRental(
+            @PathVariable Long id,
+            @ModelAttribute RentalDto rentalDto) {
         Rental updatedRental = rentalService.updateRental(id, rentalDto);
-        return ResponseEntity.ok(updatedRental);
+        RentalResponse rentalResponse = new RentalResponse("Rental updated!", updatedRental);
+        return ResponseEntity.ok(rentalResponse);
     }
 }

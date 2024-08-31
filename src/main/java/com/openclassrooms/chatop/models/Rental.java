@@ -1,5 +1,6 @@
 package com.openclassrooms.chatop.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -16,8 +17,25 @@ public class Rental {
     private double surface;
     private String picture; // Stocke le chemin ou l'URL du fichier
     private Long ownerId;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     // Getters and Setters
     public Long getId() {

@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -43,8 +42,7 @@ public class RentalService {
         }
 
         rental.setOwnerId(rentalDto.getOwnerId());
-        rental.setCreatedAt(LocalDateTime.now());
-        rental.setUpdatedAt(LocalDateTime.now());
+        // Les champs createdAt et updatedAt seront initialisés par @PrePersist
         return rentalRepository.save(rental);
     }
 
@@ -63,11 +61,9 @@ public class RentalService {
             }
             String filePath = uploadDir + file.getOriginalFilename();
             file.transferTo(new File(filePath));
-            logger.info("Fichier enregistré à : " + filePath);
             // Retourner l'URL relative
             return "/static/upload/" + file.getOriginalFilename();
         } catch (IOException e) {
-            logger.severe("Erreur lors de l'enregistrement du fichier : " + e.getMessage());
             return null;
         }
     }
@@ -87,7 +83,7 @@ public class RentalService {
             }
 
             rental.setOwnerId(rentalDto.getOwnerId());
-            rental.setUpdatedAt(LocalDateTime.now());
+            // Le champ updatedAt sera mis à jour par @PreUpdate
             return rentalRepository.save(rental);
         }
         return null;
@@ -95,5 +91,10 @@ public class RentalService {
 
     public void deleteRental(Long id) {
         rentalRepository.deleteById(id);
+    }
+
+    // Nouvelle méthode pour obtenir les locations par propriétaire
+    public List<Rental> getRentalsByOwnerId(Long ownerId) {
+        return rentalRepository.findByOwnerId(ownerId);
     }
 }

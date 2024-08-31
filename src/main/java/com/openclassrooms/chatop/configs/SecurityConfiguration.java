@@ -34,10 +34,12 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
-                .cors().and()
+                .cors().configurationSource(corsConfigurationSource()).and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/api/rentals/**", "/api/static/upload/**")
+                .requestMatchers("/api/auth/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/api/static/upload/**")
                 .permitAll()
+                .requestMatchers("/api/auth/me", "/api/rentals/**")
+                .authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -49,6 +51,12 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+    
+
+    
+
+
+      
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

@@ -13,8 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/static/upload")
+@SecurityRequirement(name = "bearerAuth")
 public class FileController {
 
     private final ResourceLoader resourceLoader;
