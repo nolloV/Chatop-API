@@ -12,14 +12,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+// Indique que cette classe est un service Spring
 @Service
 public class AuthenticationService {
 
+    // Dépôt pour gérer les opérations liées aux utilisateurs
     private final UserRepository userRepository;
+
+    // Encodeur de mot de passe pour hacher les mots de passe des utilisateurs
     private final PasswordEncoder passwordEncoder;
+
+    // Gestionnaire d'authentification pour authentifier les utilisateurs
     private final AuthenticationManager authenticationManager;
+
+    // Service pour gérer les opérations liées aux JWT
     private final JwtService jwtService;
 
+    // Constructeur pour injecter les dépendances
     public AuthenticationService(
             UserRepository userRepository,
             AuthenticationManager authenticationManager,
@@ -32,16 +41,21 @@ public class AuthenticationService {
         this.jwtService = jwtService;
     }
 
+    // Méthode pour inscrire un nouvel utilisateur
     public User signup(RegisterUserDto input) {
+        // Crée un nouvel utilisateur avec les informations fournies et hache le mot de passe
         User user = new User()
                 .setName(input.getName())
                 .setEmail(input.getEmail())
                 .setPassword(passwordEncoder.encode(input.getPassword()));
 
+        // Sauvegarde l'utilisateur dans le dépôt et retourne l'utilisateur sauvegardé
         return userRepository.save(user);
     }
 
+    // Méthode pour authentifier un utilisateur
     public User authenticate(LoginUserDto input) {
+        // Authentifie l'utilisateur avec l'email et le mot de passe fournis
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getEmail(),
@@ -49,14 +63,19 @@ public class AuthenticationService {
                 )
         );
 
+        // Recherche l'utilisateur par email et le retourne, ou lance une exception si non trouvé
         return userRepository.findByEmail(input.getEmail())
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
 
+    // Méthode pour obtenir l'utilisateur actuellement authentifié
     public UserDto getCurrentUser() {
+        // Obtient le principal (détails de l'utilisateur) du contexte de sécurité
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails userDetails) {
+            // Si le principal est une instance de UserDetails, obtient l'email de l'utilisateur
             String email = userDetails.getUsername();
+            // Recherche l'utilisateur par email et le retourne sous forme de DTO
             User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             UserDto userDto = new UserDto();
             userDto.setName(user.getName());
@@ -65,12 +84,16 @@ public class AuthenticationService {
             userDto.setUpdatedAt(user.getUpdatedAt());
             return userDto;
         } else {
+            // Lance une exception si l'utilisateur n'est pas authentifié
             throw new RuntimeException("Utilisateur non authentifié");
         }
     }
 
+    // Méthode pour obtenir un utilisateur à partir d'un token JWT
     public User getUserFromToken(String token) {
+        // Extrait l'email de l'utilisateur à partir du token
         String email = jwtService.extractUsername(token);
+        // Recherche l'utilisateur par email et le retourne, ou lance une exception si non trouvé
         return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
 }

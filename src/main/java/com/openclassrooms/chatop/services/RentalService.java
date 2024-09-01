@@ -12,22 +12,28 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+// Indique que cette classe est un service Spring
 @Service
 public class RentalService {
 
+    // Logger pour enregistrer les messages d'information et d'erreur
     private static final Logger logger = Logger.getLogger(RentalService.class.getName());
 
+    // Dépôt pour gérer les opérations liées aux locations
     @Autowired
     private RentalRepository rentalRepository;
 
+    // Retourne toutes les locations
     public List<Rental> getAllRentals() {
         return rentalRepository.findAll();
     }
 
+    // Retourne une location par son identifiant
     public Rental getRentalById(Long id) {
         return rentalRepository.findById(id).orElse(null);
     }
 
+    // Crée une nouvelle location à partir d'un DTO et l'ajoute au dépôt
     public Rental createRental(RentalDto rentalDto) {
         Rental rental = new Rental();
         rental.setName(rentalDto.getName());
@@ -46,6 +52,7 @@ public class RentalService {
         return rentalRepository.save(rental);
     }
 
+    // Méthode pour enregistrer un fichier sur le disque et retourner son chemin
     private String saveFile(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             logger.warning("Le fichier est nul ou vide.");
@@ -53,12 +60,14 @@ public class RentalService {
         }
 
         try {
+            // Détermine le répertoire de téléchargement
             String currentDir = System.getProperty("user.dir");
             String uploadDir = currentDir + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "upload" + File.separator;
             File directory = new File(uploadDir);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
+            // Enregistre le fichier dans le répertoire de téléchargement
             String filePath = uploadDir + file.getOriginalFilename();
             file.transferTo(new File(filePath));
             // Retourner l'URL relative
@@ -68,6 +77,7 @@ public class RentalService {
         }
     }
 
+    // Met à jour une location existante à partir d'un DTO
     public Rental updateRental(Long id, RentalDto rentalDto) {
         Rental rental = rentalRepository.findById(id).orElse(null);
         if (rental != null) {
@@ -89,6 +99,7 @@ public class RentalService {
         return null;
     }
 
+    // Supprime une location par son identifiant
     public void deleteRental(Long id) {
         rentalRepository.deleteById(id);
     }

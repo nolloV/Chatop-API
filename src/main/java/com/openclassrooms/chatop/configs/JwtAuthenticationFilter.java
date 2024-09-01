@@ -25,10 +25,10 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final HandlerExceptionResolver handlerExceptionResolver;
-
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    // Constructeur pour injecter les services nécessaires
     public JwtAuthenticationFilter(
             JwtService jwtService,
             UserDetailsService userDetailsService,
@@ -39,6 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
+    // Méthode principale pour filtrer les requêtes HTTP
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -47,21 +48,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
 
+        // Vérifie si le header Authorization est présent et commence par "Bearer "
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         try {
+            // Extrait le token JWT du header
             final String jwt = authHeader.substring(7);
             final String userEmail = jwtService.extractUsername(jwt);
 
+            // Vérifie si l'utilisateur est déjà authentifié
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (userEmail != null && authentication == null) {
+                // Charge les détails de l'utilisateur à partir de l'email extrait du token
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
+                // Vérifie si le token est valide
                 if (jwtService.isTokenValid(jwt, userDetails)) {
+                    // Crée un objet d'authentification et le place dans le contexte de sécurité
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
@@ -73,8 +80,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
 
+            // Continue le filtrage de la requête
             filterChain.doFilter(request, response);
         } catch (ServletException | IOException | UsernameNotFoundException exception) {
+            // Gère les exceptions en utilisant le HandlerExceptionResolver
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }
     }

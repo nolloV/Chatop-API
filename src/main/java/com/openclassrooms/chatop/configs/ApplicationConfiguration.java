@@ -17,26 +17,31 @@ public class ApplicationConfiguration {
 
     private final UserRepository userRepository;
 
+    // Constructeur pour injecter le UserRepository
     public ApplicationConfiguration(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    // Déclare un bean UserDetailsService qui charge les détails de l'utilisateur par email
     @Bean
     UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    // Déclare un bean BCryptPasswordEncoder pour encoder les mots de passe
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Déclare un bean AuthenticationManager pour gérer l'authentification
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    // Déclare un bean AuthenticationProvider pour fournir l'authentification
     @Bean
     AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
