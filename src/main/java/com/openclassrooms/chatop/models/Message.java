@@ -1,10 +1,15 @@
 package com.openclassrooms.chatop.models;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 @Entity
-@Table(name = "messages")
+@Table(name = "messages")  // Spécifiez le nom de la table ici
 public class Message {
 
     @Id
@@ -13,8 +18,8 @@ public class Message {
 
     private String content;
     private String sender;
-    private Long user_id;
-    private Long rental_id;
+    private Long userId;
+    private Long rentalId;
     private LocalDateTime timestamp;
 
     // Getters et Setters
@@ -42,20 +47,20 @@ public class Message {
         this.sender = sender;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Long getRental_id() {
-        return rental_id;
+    public Long getRentalId() {
+        return rentalId;
     }
 
-    public void setRental_id(Long rental_id) {
-        this.rental_id = rental_id;
+    public void setRentalId(Long rentalId) {
+        this.rentalId = rentalId;
     }
 
     public LocalDateTime getTimestamp() {
