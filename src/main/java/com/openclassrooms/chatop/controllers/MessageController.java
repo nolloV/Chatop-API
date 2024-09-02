@@ -26,17 +26,8 @@ public class MessageController {
     // Endpoint pour créer un nouveau message
     @PostMapping
     public ResponseEntity<String> createMessage(@RequestBody MessageDto messageDto) {
-        // Convertir le DTO en entité Message
-        Message message = new Message();
-        message.setContent(messageDto.getContent());
-        message.setSender(messageDto.getSender());
-        message.setUserId(messageDto.getUserId());
-        message.setRentalId(messageDto.getRentalId());
-        message.setCreatedAt(messageDto.getCreatedAt());
-        message.setUpdatedAt(messageDto.getUpdatedAt());
-
         // Créer le message en utilisant le service
-        messageService.createMessage(message);
+        messageService.createMessage(messageDto);
 
         // Retourner le message de succès au format JSON
         return ResponseEntity.ok("{\"message\": \"Message sent with success\"}");

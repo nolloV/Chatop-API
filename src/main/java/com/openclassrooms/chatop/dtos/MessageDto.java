@@ -4,20 +4,20 @@ import java.time.LocalDateTime;
 
 public class MessageDto {
 
-    private String content;
+    private String message; // Correspond à "message" dans le formulaire Angular
     private String sender;
-    private Long userId;
-    private Long rentalId;
+    private Long user_id; // Correspond à "user_id" dans le formulaire Angular
+    private Long rental_id; // Correspond à "rental_id" dans le formulaire Angular
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     // Getters et Setters
-    public String getContent() {
-        return content;
+    public String getMessage() {
+        return message;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getSender() {
@@ -28,20 +28,20 @@ public class MessageDto {
         this.sender = sender;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
-    public Long getRentalId() {
-        return rentalId;
+    public Long getRental_id() {
+        return rental_id;
     }
 
-    public void setRentalId(Long rentalId) {
-        this.rentalId = rentalId;
+    public void setRental_id(Long rental_id) {
+        this.rental_id = rental_id;
     }
 
     public LocalDateTime getCreatedAt() {
