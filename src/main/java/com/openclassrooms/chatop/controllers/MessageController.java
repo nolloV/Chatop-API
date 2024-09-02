@@ -32,6 +32,8 @@ public class MessageController {
         message.setSender(messageDto.getSender());
         message.setUserId(messageDto.getUserId());
         message.setRentalId(messageDto.getRentalId());
+        message.setCreatedAt(messageDto.getCreatedAt());
+        message.setUpdatedAt(messageDto.getUpdatedAt());
 
         // Créer le message en utilisant le service
         messageService.createMessage(message);

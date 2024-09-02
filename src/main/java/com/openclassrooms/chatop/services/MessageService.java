@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Service
 public class MessageService {
-
     @Autowired
     private MessageRepository messageRepository;
 
@@ -27,15 +26,16 @@ public class MessageService {
 
     // Créer un nouveau message
     public Message createMessage(Message message) {
-        message.setTimestamp(LocalDateTime.now());  // Ajouter l'horodatage actuel
-        return messageRepository.save(message);  // Sauvegarder le message dans la base de données
+        message.setCreatedAt(LocalDateTime.now());
+        message.setUpdatedAt(LocalDateTime.now());
+        return messageRepository.save(message);
     }
 
     // Mettre à jour un message existant
     public Message updateMessage(Long id, Message messageDetails) {
         Message message = messageRepository.findById(id).orElseThrow(() -> new RuntimeException("Message not found"));
         message.setContent(messageDetails.getContent());
-        message.setTimestamp(LocalDateTime.now());  // Mettre à jour l'horodatage
+        message.setUpdatedAt(LocalDateTime.now());
         return messageRepository.save(message);
     }
 
