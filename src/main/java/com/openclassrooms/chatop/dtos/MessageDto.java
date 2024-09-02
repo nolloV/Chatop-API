@@ -40,3 +40,4 @@ public class MessageDto {
         this.rental_id = rental_id;
     }
 }
+
