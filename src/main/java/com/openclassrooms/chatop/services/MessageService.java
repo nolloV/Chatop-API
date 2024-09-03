@@ -19,44 +19,59 @@ public class MessageService {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @Autowired
-    private AuthenticationService authenticationService;
-
-    // Récupérer tous les messages
+    /**
+     * Récupérer tous les messages.
+     *
+     * @return une liste de tous les messages.
+     */
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
     }
 
-    // Récupérer un message par son ID
+    /**
+     * Récupérer un message par son ID.
+     *
+     * @param id l'ID du message à récupérer.
+     * @return un Optional contenant le message s'il est trouvé, sinon un
+     * Optional vide.
+     */
     public Optional<Message> getMessageById(Long id) {
         return messageRepository.findById(id);
     }
 
-    // Créer un nouveau message à partir d'un DTO
+    /**
+     * Créer un nouveau message à partir d'un DTO.
+     *
+     * @param messageDto le DTO contenant les informations du message à créer.
+     * @return le message créé et sauvegardé.
+     */
     public Message createMessage(MessageDto messageDto) {
         Message message = new Message();
         message.setContent(messageDto.getMessage());
-        message.setSender(authenticationService.getCurrentUser().getName());
-        message.setUserId(messageDto.getUser_id());
+        message.setSender(authenticationService.getCurrentUser().getName()); // Utiliser le nom de l'utilisateur courant
+        message.setUserId(authenticationService.getCurrentUser().getId()); // Utiliser l'ID de l'utilisateur courant
         message.setRentalId(messageDto.getRental_id());
-        message.setCreatedAt(LocalDateTime.now());
-        message.setUpdatedAt(LocalDateTime.now());
-        return messageRepository.save(message);
+        message.setCreatedAt(LocalDateTime.now()); // Définir la date de création actuelle
+        message.setUpdatedAt(LocalDateTime.now()); // Définir la date de mise à jour actuelle
+        return messageRepository.save(message); // Sauvegarder le message dans la base de données
     }
 
-    // Mettre à jour un message existant
+    /**
+     * Mettre à jour un message existant.
+     *
+     * @param id l'ID du message à mettre à jour.
+     * @param messageDto le DTO contenant les nouvelles informations du message.
+     * @return le message mis à jour et sauvegardé.
+     */
     public Message updateMessage(Long id, MessageDto messageDto) {
-        Message message = messageRepository.findById(id).orElseThrow(() -> new RuntimeException("Message not found"));
+        // Trouver le message par son ID ou lancer une exception s'il n'est pas trouvé
+        Message message = messageRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Message not found"));
         message.setContent(messageDto.getMessage());
-        message.setSender(authenticationService.getCurrentUser().getName());
-        message.setUserId(messageDto.getUser_id());
+        message.setSender(authenticationService.getCurrentUser().getName()); // Utiliser le nom de l'utilisateur courant
+        message.setUserId(authenticationService.getCurrentUser().getId()); // Utiliser l'ID de l'utilisateur courant
         message.setRentalId(messageDto.getRental_id());
-        message.setUpdatedAt(LocalDateTime.now());
-        return messageRepository.save(message);
-    }
-
-    // Supprimer un message par son ID
-    public void deleteMessage(Long id) {
-        messageRepository.deleteById(id);
+        message.setUpdatedAt(LocalDateTime.now()); // Définir la date de mise à jour actuelle
+        return messageRepository.save(message); // Sauvegarder le message mis à jour dans la base de données
     }
 }

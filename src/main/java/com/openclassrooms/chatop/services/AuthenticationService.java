@@ -41,7 +41,12 @@ public class AuthenticationService {
         this.jwtService = jwtService;
     }
 
-    // Méthode pour inscrire un nouvel utilisateur
+    /**
+     * Inscrire un nouvel utilisateur.
+     *
+     * @param input les informations de l'utilisateur à inscrire.
+     * @return l'utilisateur inscrit.
+     */
     public User signup(RegisterUserDto input) {
         // Crée un nouvel utilisateur avec les informations fournies et hache le mot de passe
         User user = new User()
@@ -53,7 +58,12 @@ public class AuthenticationService {
         return userRepository.save(user);
     }
 
-    // Méthode pour authentifier un utilisateur
+    /**
+     * Authentifier un utilisateur.
+     *
+     * @param input les informations de connexion de l'utilisateur.
+     * @return l'utilisateur authentifié.
+     */
     public User authenticate(LoginUserDto input) {
         // Authentifie l'utilisateur avec l'email et le mot de passe fournis
         authenticationManager.authenticate(
@@ -68,7 +78,11 @@ public class AuthenticationService {
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
 
-    // Méthode pour obtenir l'utilisateur actuellement authentifié
+    /**
+     * Obtenir l'utilisateur actuellement authentifié.
+     *
+     * @return les informations de l'utilisateur actuellement authentifié.
+     */
     public UserDto getCurrentUser() {
         // Obtient le principal (détails de l'utilisateur) du contexte de sécurité
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -78,6 +92,7 @@ public class AuthenticationService {
             // Recherche l'utilisateur par email et le retourne sous forme de DTO
             User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             UserDto userDto = new UserDto();
+            userDto.setId(user.getId().longValue()); // Convertir l'ID en Long
             userDto.setName(user.getName());
             userDto.setEmail(user.getEmail());
             userDto.setCreatedAt(user.getCreatedAt());
@@ -89,7 +104,12 @@ public class AuthenticationService {
         }
     }
 
-    // Méthode pour obtenir un utilisateur à partir d'un token JWT
+    /**
+     * Obtenir un utilisateur à partir d'un token JWT.
+     *
+     * @param token le token JWT.
+     * @return l'utilisateur correspondant au token.
+     */
     public User getUserFromToken(String token) {
         // Extrait l'email de l'utilisateur à partir du token
         String email = jwtService.extractUsername(token);

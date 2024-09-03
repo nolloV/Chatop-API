@@ -6,6 +6,10 @@ import java.util.Date;
 // DTO (Data Transfer Object) pour les informations de l'utilisateur
 public class UserDto {
 
+    // ID de l'utilisateur, mappé à la propriété JSON "user_id"
+    @JsonProperty("user_id")
+    private Long id;
+
     // Nom de l'utilisateur, mappé à la propriété JSON "name"
     @JsonProperty("name")
     private String name;
@@ -27,11 +31,22 @@ public class UserDto {
     }
 
     // Constructeur avec paramètres pour initialiser les propriétés
-    public UserDto(String name, String email, Date createdAt, Date updatedAt) {
+    public UserDto(Long id, String name, String email, Date createdAt, Date updatedAt) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    // Getter pour l'ID
+    public Long getId() {
+        return id;
+    }
+
+    // Setter pour l'ID
+    public void setId(Long id) {
+        this.id = id;
     }
 
     // Getter pour le nom

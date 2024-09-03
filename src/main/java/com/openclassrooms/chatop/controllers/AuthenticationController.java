@@ -30,7 +30,12 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    // Endpoint pour l'enregistrement des utilisateurs
+    /**
+     * Endpoint pour l'enregistrement des utilisateurs.
+     *
+     * @param registerUserDto les informations de l'utilisateur à enregistrer.
+     * @return une réponse contenant le token JWT.
+     */
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterUserDto registerUserDto) {
         // Inscrit un nouvel utilisateur
@@ -44,7 +49,12 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
 
-    // Endpoint pour l'authentification des utilisateurs
+    /**
+     * Endpoint pour l'authentification des utilisateurs.
+     *
+     * @param loginUserDto les informations de connexion de l'utilisateur.
+     * @return une réponse contenant le token JWT et le temps d'expiration.
+     */
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
         // Authentifie l'utilisateur
@@ -57,7 +67,12 @@ public class AuthenticationController {
         return ResponseEntity.ok(loginResponse);
     }
 
-    // Endpoint pour obtenir les informations de l'utilisateur authentifié
+    /**
+     * Endpoint pour obtenir les informations de l'utilisateur authentifié.
+     *
+     * @param token le token JWT de l'utilisateur.
+     * @return les informations de l'utilisateur authentifié.
+     */
     @GetMapping("/me")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<?> getCurrentUser(@RequestHeader(value = "Authorization", required = false) String token) {
@@ -70,7 +85,7 @@ public class AuthenticationController {
         // Récupère l'utilisateur à partir du token
         User currentUser = authenticationService.getUserFromToken(token);
         // Crée un DTO pour l'utilisateur
-        UserDto userDto = new UserDto(currentUser.getName(), currentUser.getEmail(), currentUser.getCreatedAt(), currentUser.getUpdatedAt());
+        UserDto userDto = new UserDto(currentUser.getId().longValue(), currentUser.getName(), currentUser.getEmail(), currentUser.getCreatedAt(), currentUser.getUpdatedAt());
         // Retourne les informations de l'utilisateur
         return ResponseEntity.ok(userDto);
     }
