@@ -4,13 +4,14 @@ import java.time.LocalDateTime;
 
 public class MessageDto {
 
-    private String message; // Correspond à "message" dans le formulaire Angular
-    private String sender;
-    private Integer rental_id; // Correspond à "rental_id" dans le formulaire Angular
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    // Champs représentant les données du message
+    private String message; // Contenu du message
+    private String sender; // Nom de l'expéditeur
+    private Integer rental_id; // Identifiant de la location associée
+    private LocalDateTime createdAt; // Date et heure de création
+    private LocalDateTime updatedAt; // Date et heure de la dernière mise à jour
 
-    // Getters et Setters
+    // Getters et Setters pour accéder et modifier les champs privés
     public String getMessage() {
         return message;
     }

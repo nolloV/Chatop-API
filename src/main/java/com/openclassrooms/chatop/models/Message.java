@@ -3,33 +3,34 @@ package com.openclassrooms.chatop.models;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
+// Indique que cette classe est une entité JPA mappée à une table de la base de données
 @Entity
 @Table(name = "MESSAGES")
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; // Changer le type de Long à Integer
+    private Integer id; // Identifiant unique du message
 
     @Column(name = "message", length = 2000)
-    private String content;
+    private String content; // Contenu du message
 
     @Column(name = "sender")
-    private String sender;
+    private String sender; // Nom de l'expéditeur du message
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer userId; // Identifiant de l'utilisateur qui a envoyé le message
 
     @Column(name = "rental_id")
-    private Integer rentalId; // Changer le type de Long à Integer
+    private Integer rentalId; // Identifiant de la location associée au message
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; // Date et heure de création du message
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt; // Date et heure de la dernière mise à jour du message
 
-    // Getters et Setters
+    // Getters et Setters pour accéder et modifier les champs privés
     public Integer getId() {
         return id;
     }
