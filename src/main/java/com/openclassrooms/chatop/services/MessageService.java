@@ -19,6 +19,9 @@ public class MessageService {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     // Récupérer tous les messages
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
