@@ -32,10 +32,10 @@ public class MessageService {
     // Créer un nouveau message à partir d'un DTO
     public Message createMessage(MessageDto messageDto) {
         Message message = new Message();
-        message.setContent(messageDto.getMessage()); 
+        message.setContent(messageDto.getMessage());
         message.setSender(authenticationService.getCurrentUser().getName());
-        message.setUserId(messageDto.getUser_id()); 
-        message.setRentalId(messageDto.getRental_id()); 
+        message.setUserId(messageDto.getUser_id());
+        message.setRentalId(messageDto.getRental_id());
         message.setCreatedAt(LocalDateTime.now());
         message.setUpdatedAt(LocalDateTime.now());
         return messageRepository.save(message);
@@ -44,9 +44,9 @@ public class MessageService {
     // Mettre à jour un message existant
     public Message updateMessage(Long id, MessageDto messageDto) {
         Message message = messageRepository.findById(id).orElseThrow(() -> new RuntimeException("Message not found"));
-        message.setContent(messageDto.getMessage()); 
+        message.setContent(messageDto.getMessage());
         message.setSender(authenticationService.getCurrentUser().getName());
-        message.setUserId(messageDto.getUser_id()); 
+        message.setUserId(messageDto.getUser_id());
         message.setRentalId(messageDto.getRental_id());
         message.setUpdatedAt(LocalDateTime.now());
         return messageRepository.save(message);
