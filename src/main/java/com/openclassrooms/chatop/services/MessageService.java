@@ -16,6 +16,9 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     // Récupérer tous les messages
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
@@ -29,10 +32,10 @@ public class MessageService {
     // Créer un nouveau message à partir d'un DTO
     public Message createMessage(MessageDto messageDto) {
         Message message = new Message();
-        message.setContent(messageDto.getMessage()); // Utiliser le nouveau nom de champ
-        message.setSender(messageDto.getSender());
-        message.setUserId(messageDto.getUser_id()); // Utiliser le nouveau nom de champ
-        message.setRentalId(messageDto.getRental_id()); // Utiliser le nouveau nom de champ
+        message.setContent(messageDto.getMessage()); 
+        message.setSender(authenticationService.getCurrentUser().getName());
+        message.setUserId(messageDto.getUser_id()); 
+        message.setRentalId(messageDto.getRental_id()); 
         message.setCreatedAt(LocalDateTime.now());
         message.setUpdatedAt(LocalDateTime.now());
         return messageRepository.save(message);
@@ -41,10 +44,10 @@ public class MessageService {
     // Mettre à jour un message existant
     public Message updateMessage(Long id, MessageDto messageDto) {
         Message message = messageRepository.findById(id).orElseThrow(() -> new RuntimeException("Message not found"));
-        message.setContent(messageDto.getMessage()); // Utiliser le nouveau nom de champ
-        message.setSender(messageDto.getSender());
-        message.setUserId(messageDto.getUser_id()); // Utiliser le nouveau nom de champ
-        message.setRentalId(messageDto.getRental_id()); // Utiliser le nouveau nom de champ
+        message.setContent(messageDto.getMessage()); 
+        message.setSender(authenticationService.getCurrentUser().getName());
+        message.setUserId(messageDto.getUser_id()); 
+        message.setRentalId(messageDto.getRental_id());
         message.setUpdatedAt(LocalDateTime.now());
         return messageRepository.save(message);
     }
