@@ -8,7 +8,7 @@ public class UserDto {
 
     // ID de l'utilisateur, mappé à la propriété JSON "user_id"
     @JsonProperty("user_id")
-    private Long id;
+    private Integer id;
 
     // Nom de l'utilisateur, mappé à la propriété JSON "name"
     @JsonProperty("name")
@@ -31,7 +31,7 @@ public class UserDto {
     }
 
     // Constructeur avec paramètres pour initialiser les propriétés
-    public UserDto(Long id, String name, String email, Date createdAt, Date updatedAt) {
+    public UserDto(Integer id, String name, String email, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -40,12 +40,12 @@ public class UserDto {
     }
 
     // Getter pour l'ID
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     // Setter pour l'ID
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -29,7 +29,7 @@ public class UserController {
         // Récupère l'utilisateur par son ID via le service
         User user = userService.getUserById(id);
         // Convertit l'utilisateur en DTO pour la réponse
-        UserDto userDto = new UserDto(user.getId().longValue(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
+        UserDto userDto = new UserDto(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
         // Retourne l'utilisateur dans une réponse HTTP
         return ResponseEntity.ok(userDto);
     }

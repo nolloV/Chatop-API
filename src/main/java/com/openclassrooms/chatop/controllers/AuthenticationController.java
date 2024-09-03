@@ -85,7 +85,7 @@ public class AuthenticationController {
         // Récupère l'utilisateur à partir du token
         User currentUser = authenticationService.getUserFromToken(token);
         // Crée un DTO pour l'utilisateur
-        UserDto userDto = new UserDto(currentUser.getId().longValue(), currentUser.getName(), currentUser.getEmail(), currentUser.getCreatedAt(), currentUser.getUpdatedAt());
+        UserDto userDto = new UserDto(currentUser.getId(), currentUser.getName(), currentUser.getEmail(), currentUser.getCreatedAt(), currentUser.getUpdatedAt());
         // Retourne les informations de l'utilisateur
         return ResponseEntity.ok(userDto);
     }

@@ -92,7 +92,7 @@ public class AuthenticationService {
             // Recherche l'utilisateur par email et le retourne sous forme de DTO
             User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             UserDto userDto = new UserDto();
-            userDto.setId(user.getId().longValue()); // Convertir l'ID en Long
+            userDto.setId(user.getId()); // Convertir l'ID en Long
             userDto.setName(user.getName());
             userDto.setEmail(user.getEmail());
             userDto.setCreatedAt(user.getCreatedAt());

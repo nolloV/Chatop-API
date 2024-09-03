@@ -9,7 +9,7 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id; // Changer le type de Long à Integer
 
     @Column(name = "message", length = 2000)
     private String content;
@@ -18,10 +18,10 @@ public class Message {
     private String sender;
 
     @Column(name = "user_id")
-    private Long userId;
+    private Integer userId;
 
     @Column(name = "rental_id")
-    private Long rentalId;
+    private Integer rentalId; // Changer le type de Long à Integer
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -30,11 +30,11 @@ public class Message {
     private LocalDateTime updatedAt;
 
     // Getters et Setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -54,19 +54,19 @@ public class Message {
         this.sender = sender;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public Long getRentalId() {
+    public Integer getRentalId() {
         return rentalId;
     }
 
-    public void setRentalId(Long rentalId) {
+    public void setRentalId(Integer rentalId) {
         this.rentalId = rentalId;
     }
 
