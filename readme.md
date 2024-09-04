@@ -4,7 +4,7 @@
 
 ## Description
 
-Chatop est une application de démonstration utilisant Spring Boot de mise en relation entre les futurs locataires et les propriétaires pour de la location saisonnière sur la côte basque.
+Chatop est une application de mise en relation entre les futurs locataires et les propriétaires pour de la location saisonnière sur la côte basque.
 Elle permet de gérer des annonces, des utilisateurs et des messages.
 
 ## Fonctionnalités
