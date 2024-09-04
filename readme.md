@@ -128,7 +128,7 @@ server.port=8005
 # Configuration de la source de données (base de données MySQL)
 spring.datasource.url=jdbc:mysql://localhost:3306/chatop_db
 spring.datasource.username=root
-spring.datasource.password=secret
+spring.datasource.password=**your_password**
 
 ## Propriétés Hibernate
 # Stratégie de génération du schéma de la base de données (update, create, create-drop, validate)
