@@ -11,7 +11,7 @@ public class Rental {
     // Identifiant unique de la location, généré automatiquement
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     // Nom de la location
     private String name;
@@ -29,7 +29,7 @@ public class Rental {
     private String picture;
 
     // Identifiant du propriétaire de la location
-    private Long ownerId;
+    private Integer ownerId;
 
     // Date de création de la location, non modifiable après insertion
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -55,12 +55,12 @@ public class Rental {
     }
 
     // Getter pour l'identifiant de la location
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     // Setter pour l'identifiant de la location
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -115,12 +115,12 @@ public class Rental {
     }
 
     // Getter pour l'identifiant du propriétaire de la location
-    public Long getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
     // Setter pour l'identifiant du propriétaire de la location
-    public void setOwnerId(Long ownerId) {
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
 

@@ -23,7 +23,7 @@ public class RentalDto {
     private MultipartFile picture; // Changer List<String> en MultipartFile
 
     // ID du propriétaire de la location
-    private Long ownerId;
+    private Integer ownerId;
 
     // Date de création de la location
     private LocalDateTime createdAt;
@@ -82,12 +82,12 @@ public class RentalDto {
     }
 
     // Getter pour l'ID du propriétaire
-    public Long getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
     // Setter pour l'ID du propriétaire
-    public void setOwnerId(Long ownerId) {
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
 

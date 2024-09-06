@@ -29,7 +29,7 @@ public class RentalService {
     }
 
     // Retourne une location par son identifiant
-    public Rental getRentalById(Long id) {
+    public Rental getRentalById(Integer id) {
         return rentalRepository.findById(id).orElse(null);
     }
 
@@ -78,7 +78,7 @@ public class RentalService {
     }
 
     // Met à jour une location existante à partir d'un DTO
-    public Rental updateRental(Long id, RentalDto rentalDto) {
+    public Rental updateRental(Integer id, RentalDto rentalDto) {
         Rental rental = rentalRepository.findById(id).orElse(null);
         if (rental != null) {
             rental.setName(rentalDto.getName());
@@ -100,12 +100,12 @@ public class RentalService {
     }
 
     // Supprime une location par son identifiant
-    public void deleteRental(Long id) {
+    public void deleteRental(Integer id) {
         rentalRepository.deleteById(id);
     }
 
     // Nouvelle méthode pour obtenir les locations par propriétaire
-    public List<Rental> getRentalsByOwnerId(Long ownerId) {
+    public List<Rental> getRentalsByOwnerId(Integer ownerId) {
         return rentalRepository.findByOwnerId(ownerId);
     }
 }

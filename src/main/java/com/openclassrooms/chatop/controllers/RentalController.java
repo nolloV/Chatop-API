@@ -36,7 +36,7 @@ public class RentalController {
 
     // Endpoint pour obtenir une location par son ID
     @GetMapping("/{id}")
-    public ResponseEntity<Rental> getRentalById(@PathVariable Long id) {
+    public ResponseEntity<Rental> getRentalById(@PathVariable Integer id) {
         // Récupère la location par son ID via le service
         Rental rental = rentalService.getRentalById(id);
         // Si la location n'est pas trouvée, retourne une réponse 404
@@ -61,7 +61,7 @@ public class RentalController {
     // Endpoint pour mettre à jour une location existante
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RentalResponse> updateRental(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @ModelAttribute RentalDto rentalDto) {
         // Met à jour la location via le service
         Rental updatedRental = rentalService.updateRental(id, rentalDto);

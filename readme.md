@@ -158,8 +158,6 @@ Le projet suit une architecture classique en couches (Contrôleur/Service/Java P
 
 ## Dépendances
 
-## Dépendances
-
 Voici la liste des dépendances utilisées dans ce projet :
 
 ### Spring Boot Starters
