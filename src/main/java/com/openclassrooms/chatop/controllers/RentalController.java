@@ -1,8 +1,7 @@
 package com.openclassrooms.chatop.controllers;
 
-import com.openclassrooms.chatop.models.Rental;
+import com.openclassrooms.chatop.entities.Rental;
 import com.openclassrooms.chatop.dtos.RentalDto;
-import com.openclassrooms.chatop.dtos.RentalResponse;
 import com.openclassrooms.chatop.services.RentalService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,24 +48,24 @@ public class RentalController {
 
     // Endpoint pour créer une nouvelle location
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<RentalResponse> createRental(@ModelAttribute RentalDto rentalDto) {
+    public ResponseEntity<RentalDto> createRental(@ModelAttribute RentalDto rentalDto) {
         // Crée une nouvelle location via le service
         Rental newRental = rentalService.createRental(rentalDto);
         // Crée une réponse contenant un message de succès et la nouvelle location
-        RentalResponse rentalResponse = new RentalResponse("Rental created!", newRental);
+        RentalDto rentalResponse = new RentalDto("Rental created!", newRental);
         // Retourne la réponse avec la nouvelle location
         return ResponseEntity.ok(rentalResponse);
     }
 
     // Endpoint pour mettre à jour une location existante
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<RentalResponse> updateRental(
+    public ResponseEntity<RentalDto> updateRental(
             @PathVariable Integer id,
             @ModelAttribute RentalDto rentalDto) {
         // Met à jour la location via le service
         Rental updatedRental = rentalService.updateRental(id, rentalDto);
         // Crée une réponse contenant un message de succès et la location mise à jour
-        RentalResponse rentalResponse = new RentalResponse("Rental updated!", updatedRental);
+        RentalDto rentalResponse = new RentalDto("Rental updated!", updatedRental);
         // Retourne la réponse avec la location mise à jour
         return ResponseEntity.ok(rentalResponse);
     }

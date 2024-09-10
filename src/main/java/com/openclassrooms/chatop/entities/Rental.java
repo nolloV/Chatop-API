@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.models;
+package com.openclassrooms.chatop.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;

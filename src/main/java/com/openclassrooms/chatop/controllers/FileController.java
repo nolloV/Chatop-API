@@ -1,7 +1,7 @@
 package com.openclassrooms.chatop.controllers;
 
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +17,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 // Déclare que cette classe est un contrôleur REST et mappe les requêtes à /static/upload
 @RestController
-@RequestMapping("/static/upload")
+@RequestMapping("/api/static/upload")
 @SecurityRequirement(name = "bearerAuth")
 public class FileController {
 
-    // Loader de ressources pour charger les fichiers
-    private final ResourceLoader resourceLoader;
-
     // Chemin racine pour le stockage des fichiers uploadés
     private final Path rootLocation = Paths.get("src/main/resources/static/upload");
-
-    // Constructeur pour injecter le ResourceLoader
-    public FileController(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
 
     // Endpoint pour gérer le téléchargement de fichiers
     @PostMapping
@@ -50,27 +42,27 @@ public class FileController {
         }
     }
 
-    // Endpoint pour servir les fichiers téléchargés
     @GetMapping("/{filename:.+}")
-    @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         try {
             // Résout le chemin du fichier demandé
-            Path file = rootLocation.resolve(filename);
-            // Charge le fichier en tant que ressource
-            Resource resource = resourceLoader.getResource("file:" + file.toString());
+            Path file = Paths.get("src/main/resources/static/upload/").resolve(filename);
+            // Crée une ressource à partir du fichier
+            Resource resource = new UrlResource(file.toUri());
 
-            // Prépare les en-têtes de la réponse
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
-
-            // Retourne le fichier en tant que ressource avec les en-têtes appropriés
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .body(resource);
+            // Vérifie si la ressource existe et est lisible
+            if (resource.exists() || resource.isReadable()) {
+                // Retourne le fichier en tant que ressource avec les en-têtes appropriés
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .body(resource);
+            } else {
+                // Retourne une réponse 404 si le fichier n'est pas trouvé ou n'est pas lisible
+                return ResponseEntity.notFound().build();
+            }
         } catch (Exception e) {
-            // Retourne une réponse 404 si le fichier n'est pas trouvé
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            // Retourne une réponse 500 en cas d'exception
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

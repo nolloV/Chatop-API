@@ -30,7 +30,7 @@ public class UserService {
     }
 
     // Retourne un utilisateur par son identifiant
-    public User getUserById(Integer id) { // Utiliser Integer au lieu de Long
+    public User getUserById(Integer id) {
         // Recherche l'utilisateur par identifiant
         Optional<User> user = userRepository.findById(id);
         // Retourne l'utilisateur s'il est trouvé, sinon retourne null

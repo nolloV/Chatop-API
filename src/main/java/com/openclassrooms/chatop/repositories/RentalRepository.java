@@ -1,6 +1,6 @@
 package com.openclassrooms.chatop.repositories;
 
-import com.openclassrooms.chatop.models.Rental;
+import com.openclassrooms.chatop.entities.Rental;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

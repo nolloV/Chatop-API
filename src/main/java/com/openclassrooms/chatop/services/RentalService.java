@@ -1,6 +1,6 @@
 package com.openclassrooms.chatop.services;
 
-import com.openclassrooms.chatop.models.Rental;
+import com.openclassrooms.chatop.entities.Rental;
 import com.openclassrooms.chatop.dtos.RentalDto;
 import com.openclassrooms.chatop.repositories.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;

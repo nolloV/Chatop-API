@@ -1,7 +1,7 @@
 package com.openclassrooms.chatop.services;
 
 import com.openclassrooms.chatop.dtos.MessageDto;
-import com.openclassrooms.chatop.models.Message;
+import com.openclassrooms.chatop.entities.Message;
 import com.openclassrooms.chatop.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
