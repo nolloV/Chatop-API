@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.openclassrooms.chatop.dtos.RentalDto;
 import com.openclassrooms.chatop.dtos.UserDto;
 import com.openclassrooms.chatop.entities.Rental;
+import com.openclassrooms.chatop.exceptions.UnauthorizedException;
 import com.openclassrooms.chatop.repositories.RentalRepository;
 
 // Indique que cette classe est un service Spring
@@ -90,6 +91,14 @@ public class RentalService {
     public Rental updateRental(Integer id, RentalDto rentalDto) {
         Rental rental = rentalRepository.findById(id).orElse(null);
         if (rental != null) {
+            // Obtenir l'utilisateur actuellement authentifié
+            UserDto currentUser = authenticationService.getCurrentUser();
+
+            // Vérifier si l'utilisateur authentifié est le propriétaire de la location
+            if (!rental.getOwnerId().equals(currentUser.getId())) {
+                throw new UnauthorizedException("Vous n'êtes pas autorisé à mettre à jour cette location.");
+            }
+
             rental.setName(rentalDto.getName());
             rental.setDescription(rentalDto.getDescription());
             rental.setPrice(rentalDto.getPrice());
@@ -100,10 +109,6 @@ public class RentalService {
             if (picturePath != null) {
                 rental.setPicture(picturePath); // Utiliser une chaîne de caractères pour le champ picture
             }
-
-            // Obtenir l'utilisateur actuellement authentifié
-            UserDto currentUser = authenticationService.getCurrentUser();
-            rental.setOwnerId(currentUser.getId());
 
             // Le champ updatedAt sera mis à jour par @PreUpdate
             return rentalRepository.save(rental);
