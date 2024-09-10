@@ -1,16 +1,18 @@
 package com.openclassrooms.chatop.services;
 
-import com.openclassrooms.chatop.entities.Rental;
-import com.openclassrooms.chatop.dtos.RentalDto;
-import com.openclassrooms.chatop.repositories.RentalRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.openclassrooms.chatop.dtos.RentalDto;
+import com.openclassrooms.chatop.dtos.UserDto;
+import com.openclassrooms.chatop.entities.Rental;
+import com.openclassrooms.chatop.repositories.RentalRepository;
 
 // Indique que cette classe est un service Spring
 @Service
@@ -22,6 +24,10 @@ public class RentalService {
     // Dépôt pour gérer les opérations liées aux locations
     @Autowired
     private RentalRepository rentalRepository;
+
+    // Service pour gérer l'authentification
+    @Autowired
+    private AuthenticationService authenticationService;
 
     // Retourne toutes les locations
     public List<Rental> getAllRentals() {
@@ -47,7 +53,10 @@ public class RentalService {
             rental.setPicture(picturePath); // Utiliser une chaîne de caractères pour le champ picture
         }
 
-        rental.setOwnerId(rentalDto.getOwnerId());
+        // Obtenir l'utilisateur actuellement authentifié
+        UserDto currentUser = authenticationService.getCurrentUser();
+        rental.setOwnerId(currentUser.getId());
+
         // Les champs createdAt et updatedAt seront initialisés par @PrePersist
         return rentalRepository.save(rental);
     }

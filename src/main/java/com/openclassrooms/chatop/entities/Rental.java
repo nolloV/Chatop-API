@@ -29,6 +29,7 @@ public class Rental {
     private String picture;
 
     // Identifiant du propriétaire de la location
+    @Column(name = "owner_id")
     private Integer ownerId;
 
     // Date de création de la location, non modifiable après insertion
