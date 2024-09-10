@@ -101,7 +101,10 @@ public class RentalService {
                 rental.setPicture(picturePath); // Utiliser une chaîne de caractères pour le champ picture
             }
 
-            rental.setOwnerId(rentalDto.getOwnerId());
+            // Obtenir l'utilisateur actuellement authentifié
+            UserDto currentUser = authenticationService.getCurrentUser();
+            rental.setOwnerId(currentUser.getId());
+
             // Le champ updatedAt sera mis à jour par @PreUpdate
             return rentalRepository.save(rental);
         }
