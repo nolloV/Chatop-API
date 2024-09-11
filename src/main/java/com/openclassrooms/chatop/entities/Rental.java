@@ -30,7 +30,13 @@ public class Rental {
 
     // Identifiant du propriétaire de la location
     @Column(name = "owner_id")
+    @JsonProperty("owner_id")
     private Integer ownerId;
+
+    // Identifiant de l'utilisateur de la location
+    @Column(name = "user_id")
+    @JsonProperty("user_id")
+    private Integer userId;
 
     // Date de création de la location, non modifiable après insertion
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -123,6 +129,16 @@ public class Rental {
     // Setter pour l'identifiant du propriétaire de la location
     public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
+    }
+
+    // Getter pour l'identifiant de l'utilisateur de la location
+    public Integer getUserId() {
+        return userId;
+    }
+
+    // Setter pour l'identifiant de l'utilisateur de la location
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     // Getter pour la date de création de la location

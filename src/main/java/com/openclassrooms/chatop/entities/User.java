@@ -1,5 +1,6 @@
 package com.openclassrooms.chatop.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,6 +20,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
+    @JsonProperty("user_id")
     private Integer id;
 
     // Nom de l'utilisateur, ne peut pas être nul

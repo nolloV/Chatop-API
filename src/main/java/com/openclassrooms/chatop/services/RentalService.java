@@ -30,9 +30,23 @@ public class RentalService {
     @Autowired
     private AuthenticationService authenticationService;
 
-    // Retourne toutes les locations
+// Retourne toutes les locations
     public List<Rental> getAllRentals() {
-        return rentalRepository.findAll();
+        // Récupère toutes les locations depuis le dépôt
+        List<Rental> rentals = rentalRepository.findAll();
+
+        // Récupère l'utilisateur actuellement authentifié
+        UserDto currentUser = authenticationService.getCurrentUser();
+        Integer currentUserId = currentUser.getId();
+
+        // Parcourt chaque location et définit l'ID de l'utilisateur actuel
+        for (Rental rental : rentals) {
+            rental.setUserId(currentUserId);
+            logger.info("Rental ownerId: " + rental.getOwnerId() + ", userId: " + rental.getUserId());
+        }
+
+        // Retourne la liste des locations mises à jour
+        return rentals;
     }
 
     // Retourne une location par son identifiant
