@@ -7,7 +7,7 @@ import java.util.Date;
 public class UserDto {
 
     // ID de l'utilisateur, mappé à la propriété JSON "user_id"
-    @JsonProperty("user_id")
+    @JsonProperty("id")
     private Integer id;
 
     // Nom de l'utilisateur, mappé à la propriété JSON "name"

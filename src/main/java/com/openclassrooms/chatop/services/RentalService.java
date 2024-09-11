@@ -42,7 +42,6 @@ public class RentalService {
         // Parcourt chaque location et définit l'ID de l'utilisateur actuel
         for (Rental rental : rentals) {
             rental.setUserId(currentUserId);
-            logger.info("Rental ownerId: " + rental.getOwnerId() + ", userId: " + rental.getUserId());
         }
 
         // Retourne la liste des locations mises à jour
